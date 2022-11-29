@@ -66,11 +66,14 @@ $result = $conn->query($sql);
                                                 <?php while ($post = $result->fetch_assoc()) { ?>
                                                 <tr>
                                                     <td><?php echo $post['title'];  ?></td>
-                                                    <td><?php echo $post['category'];  ?></td>
-                                                    <td><?php echo $post['status'];  ?></td>
-                                                    <td><?php echo $post['createon'];  ?></td>
-                                                    <td><?php echo $post['updateon'];  ?></td>
-                                                    <td></td>
+                                                    <td><?php echo ucfirst($post['category']);  ?></td>
+                                                    <td><?php echo ucfirst($post['status']);  ?></td>
+                                                    <td><?php echo time_Ago($post['createon']);  ?></td>
+                                                    <td><?php echo time_Ago($post['updateon']);  ?></td>
+                                                    <td>
+                                                        <a class="btn btn-info" href="post-update.php?id=<?php echo $post['id'];  ?>">Update</a>
+                                                        <a class="btn btn-danger" href="post-delete.php?id=<?php echo $post['id'];  ?>">Delete</a>
+                                                    </td>
                                                 </tr>
                                             <?php } ?>
                                             </tbody>
