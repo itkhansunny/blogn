@@ -51,9 +51,10 @@ function handelFile($uploadDir, $MaxFileSize, $fileAttName ){
 
 
 if(isset($_POST['submit'])){
-
+    $uid = 1;
     $title          = $_POST['post-title'];
-    $content        = $_POST['post-content'];
+    $slug           = str_replace(' ', '-', strtolower($title));
+    $content        = addslashes($_POST['post-content']);
     $category       = $_POST['post-category'];
     $status         = $_POST['post-status'];
     $filename       = handelFile($uploadDir,$MaxFileSize,$fileAttName);
@@ -79,7 +80,7 @@ if(isset($_POST['submit'])){
         exit();
     }
 
-    $sql = "INSERT INTO {$postTable} (title, content, category, status, filename, createon, updateon) VALUES ('$title', '$content', '$category', '$status', '$filename', '$createon', '$updateon')";
+    $sql = "INSERT INTO {$postTable} (uid, title, slug, content, category, status, filename, createon, updateon) VALUES ('$uid','$title', '$slug', '$content', '$category', '$status', '$filename', '$createon', '$updateon')";
 
     if($conn->query($sql)){
         header("location:post-index.php?alert=success");

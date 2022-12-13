@@ -1,3 +1,129 @@
+<?php
+// Database connection 
+
+include("blog-admin/db.php");
+
+// Time ago function start
+function time_Ago($time) {
+    // https://www.geeksforgeeks.org/how-to-convert-timestamp-to-time-ago-in-php/
+    // Calculate difference between current
+    // time and given timestamp in seconds
+    $diff     = time() - $time;
+      
+    // Time difference in seconds
+    $sec     = $diff;
+      
+    // Convert time difference in minutes
+    $min     = round($diff / 60 );
+      
+    // Convert time difference in hours
+    $hrs     = round($diff / 3600);
+      
+    // Convert time difference in days
+    $days     = round($diff / 86400 );
+      
+    // Convert time difference in weeks
+    $weeks     = round($diff / 604800);
+      
+    // Convert time difference in months
+    $mnths     = round($diff / 2600640 );
+      
+    // Convert time difference in years
+    $yrs     = round($diff / 31207680 );
+      
+    // Check for seconds
+    if($sec <= 60) {
+        echo "$sec seconds ago";
+    }
+      
+    // Check for minutes
+    else if($min <= 60) {
+        if($min==1) {
+            echo "one minute ago";
+        }
+        else {
+            echo "$min minutes ago";
+        }
+    }
+      
+    // Check for hours
+    else if($hrs <= 24) {
+        if($hrs == 1) { 
+            echo "an hour ago";
+        }
+        else {
+            echo "$hrs hours ago";
+        }
+    }
+      
+    // Check for days
+    else if($days <= 7) {
+        if($days == 1) {
+            echo "Yesterday";
+        }
+        else {
+            echo "$days days ago";
+        }
+    }
+      
+    // Check for weeks
+    else if($weeks <= 4.3) {
+        if($weeks == 1) {
+            echo "a week ago";
+        }
+        else {
+            echo "$weeks weeks ago";
+        }
+    }
+      
+    // Check for months
+    else if($mnths <= 12) {
+        if($mnths == 1) {
+            echo "a month ago";
+        }
+        else {
+            echo "$mnths months ago";
+        }
+    }
+      
+    // Check for years
+    else {
+        if($yrs == 1) {
+            echo "one year ago";
+        }
+        else {
+            echo "$yrs years ago";
+        }
+    }
+}
+
+// Time ago function end
+
+// return 10 words start
+function limit_text($text, $limit) {
+  if (str_word_count($text, 0) > $limit) {
+      $words = str_word_count($text, 2);
+      $pos   = array_keys($words);
+      $text  = substr($text, 0, $pos[$limit]) . '...';
+  }
+  return $text;
+}
+// return 10 words end
+
+//Get settings value start
+
+function getSValue($key)
+{
+    include("blog-admin/db.php");
+    $sql = "SELECT * FROM settings WHERE skey='$key'";
+    $result = $conn->query($sql);
+    $row = $result->fetch_assoc();
+    return $row['svalue'];
+}
+
+//Get settings value end
+
+?>
 <!DOCTYPE html>
 
 <!--
@@ -9,7 +135,7 @@
 
 <html lang="en-us"><head>
   <meta charset="utf-8">
-  <title>Reader | Hugo Personal Blog Template</title>
+  <title><?php echo getSValue('name') ." | ". getSValue('description')?> </title>
 
   <!-- mobile responsive meta -->
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -44,7 +170,7 @@
   <div class="container">
     <nav class="navbar navbar-expand-lg navbar-white">
       <a class="navbar-brand order-1" href="index.php">
-        <img class="img-fluid" width="100px" src="images/logo.png"
+        <img class="img-fluid" width="100px" src="blog-admin/images/<?php echo getSValue('logo')?>"
           alt="Reader | Hugo Personal Blog Template">
       </a>
       <div class="collapse navbar-collapse text-center order-lg-2 order-3" id="navigation">

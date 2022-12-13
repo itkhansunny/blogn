@@ -1,4 +1,20 @@
-<?php include("header.php"); ?>
+<?php 
+
+include("header.php");
+
+if(isset($_GET['title'])){
+  $slug = $_GET['title'];
+
+//Post Query
+
+$sqlP = "SELECT * FROM post WHERE status='publish' AND slug='{$slug}'";
+
+$resultP = $conn->query($sqlP);
+
+if($resultP->num_rows >0){
+  $post = $resultP->fetch_assoc();
+
+?>
 
 <div class="py-4"></div>
 <section class="section">
@@ -7,10 +23,10 @@
       <div class=" col-lg-9   mb-5 mb-lg-0">
         <article>
           <div class="post-slider mb-4">
-            <img src="images/post/post-2.jpg" class="card-img" alt="post-thumb">
+            <img src="blog-admin/postimage/<?php echo $post['filename']; ?>" class="card-img" alt="post-thumb">
           </div>
           
-          <h1 class="h2">Customer Engage Marketing Marketing Strategy to Economy Structure Everyone. </h1>
+          <h1 class="h2"><?php echo $post['title']; ?></h1>
           <ul class="card-meta my-3 list-inline">
             <li class="list-inline-item">
               <a href="author-single.html" class="card-meta-author">
@@ -19,28 +35,16 @@
               </a>
             </li>
             <li class="list-inline-item">
-              <i class="ti-timer"></i>2 Min To Read
-            </li>
-            <li class="list-inline-item">
-              <i class="ti-calendar"></i>14 jan, 2020
+              <i class="ti-calendar"></i><?php echo time_Ago($post['createon']); ?>
             </li>
             <li class="list-inline-item">
               <ul class="card-meta-tag list-inline">
-                <li class="list-inline-item"><a href="tags.html">Color</a></li>
-                <li class="list-inline-item"><a href="tags.html">Recipe</a></li>
-                <li class="list-inline-item"><a href="tags.html">Fish</a></li>
+              <li class="list-inline-item"><a href="category.php?name=<?php echo $post['category'];?>"><?php echo $post['category'];?></a></li>
               </ul>
             </li>
           </ul>
-          <div class="content"><p>It’s no secret that the digital industry is booming. From exciting startups to global brands, companies are reaching out to digital agencies, responding to the new possibilities available. However, the industry is fast becoming overcrowded, heaving with agencies offering similar services — on the surface, at least. Producing creative, fresh projects is the key to standing out. Unique side projects are the best place to innovate, but balancing commercially and creatively lucrative work is tricky. So, this article looks at</p>
-          <p>It’s no secret that the digital industry is booming. From exciting startups to global brands, companies
-          are reaching out to digital agencies, responding to the new possibilities available. However, the industryis fast becoming overcrowded, heaving with agencies offering similar services — on the surface, at least.Producing creative, fresh projects is the key to standing out. Unique side projects are the best place toinnovate, but balancing commercially and creatively lucrative work is tricky. So, this article looks at</p>
-          <p>It’s no secret that the digital industry is booming. From exciting startups to global brands, companies
-          are reaching out to digital agencies, responding to the new possibilities available. However, the industryis fast becoming overcrowded, heaving with agencies offering similar services — on the surface, at least.
-          Producing creative, fresh projects is the key to standing out. Unique side projects are the best place toinnovate, but balancing commercially and creatively lucrative work is tricky. So, this article looks at</p>
-          <p>It’s no secret that the digital industry is booming. From exciting startups to global brands, companies
-          are reaching out to digital agencies, responding to the new possibilities available. However, the industryis fast becoming overcrowded, heaving with agencies offering similar services — on the surface, at least.
-          Producing creative, fresh projects is the key to standing out. Unique side projects are the best place toinnovate, but balancing commercially and creatively lucrative work is tricky. So, this article looks at</p>
+          <div class="content">
+          <?php echo stripslashes($post['content']);?>
           </div>
         </article>
         
@@ -176,3 +180,7 @@
   <!-- Main Script -->
   <script src="js/script.js"></script></body>
 </html>
+
+<?php 
+}
+}
