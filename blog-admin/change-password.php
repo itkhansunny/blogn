@@ -30,6 +30,15 @@ include("header.php");
                 </div>
                 <!-- /# row -->
                 <section id="main-content">
+                    <?php if(isset($_SESSION['success'])){ ?>
+                                    <div>
+                                            <div class="alert alert-success text-light h5">
+                                                    <?php echo $_SESSION['success']; 
+                                                    unset($_SESSION['success']);
+                                                    ?>
+                                            </div>
+                                    </div>
+                    <?php } ?>
                     <?php if(isset($_SESSION['error'])){ ?>
                                     <div>
                                             <div class="alert alert-danger text-light h5">
@@ -40,7 +49,7 @@ include("header.php");
                                     </div>
                     <?php } ?>
                     <div class="row">
-                        <div class="col-lg-8">
+                        <div class="col-lg-12">
                             <div class="card">
                                 <div class="card-body">
                                     <div class="form-validation">
@@ -48,7 +57,7 @@ include("header.php");
                                             <div class="form-group row">
                                                 <label class="col-lg-4 col-form-label" for="oldpass">Old Password<span class="text-danger">*</span></label>
                                                 <div class="col-lg-8">
-                                                    <input type="text" class="form-control" id="oldpass" name="oldpass" placeholder="Enter a Old Password..." autocomplete="off">
+                                                    <input type="password" class="form-control" id="oldpass" name="oldpass" placeholder="Enter a Old Password..." autocomplete="off">
                                                 </div>
                                             </div>
                                             <div class="form-group row">

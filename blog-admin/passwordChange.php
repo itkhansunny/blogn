@@ -18,14 +18,15 @@ if(isset($_POST['submit'])){
 
     if($result->num_rows > 0){
         $row = $result->fetch_assoc();
-        
         $hash = $row['password'];
-
+    
         if(password_verify($oldPassword , $hash)){
             if($newPassword == $confirmPassword){
-                $sql = "UPDATE users SET password='$newPassHash' WHERE username = $username ";
-                $_SESSION['error'] = "Old Password incorrect";
-                header('location:change-password.php');
+                $sql = "UPDATE users SET password='$newPassHash' WHERE username = '{$username}' ";
+                if($conn->query($sql)){
+                    $_SESSION['success'] = "Password updated";
+                    header('location:change-password.php');
+                }
             }
         }else{
             $_SESSION['error'] = "Old Password incorrect";
